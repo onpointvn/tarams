@@ -1,4 +1,5 @@
 defmodule Tarams.Validator do
+  @spec validate(Ecto.Changeset.t(), keyword()) :: Ecto.Changeset.t()
   def validate(changeset, validations) do
     Enum.reduce(validations, changeset, fn {field, rules}, cs ->
       validate_rule(cs, field, rules)

@@ -116,7 +116,7 @@ defmodule Tarams do
   @doc """
   Cast params to a changeset and then check if `changeset.valid? = true` then invoke `Changeset.apply_changes` and return `{:ok, data}`. Otherwise, return `{:error, changeset}`
   """
-  @spec parse(map, map) :: {:ok, map} | {:error, Ecto.Changeset.t()}
+  @spec parse(map, %{optional(atom | binary) => any}) :: {:error, Ecto.Changeset.t()} | {:ok, map}
   def parse(schema, params) do
     case cast(schema, params) do
       %{valid?: true} = changeset ->
@@ -130,7 +130,7 @@ defmodule Tarams do
   @doc """
   Build an Ecto schemaless schema and then do casting and validating params
   """
-  @spec cast(map, map) :: Ecto.Changeset
+  @spec cast(map, map) :: Ecto.Changeset.t()
   def cast(schema, params) do
     %{
       types: types,
@@ -203,7 +203,7 @@ defmodule Tarams do
     end
   end
 
-  # cast one 
+  # cast one
   defp cast_embedded_field(%Changeset{} = changeset, field, %{} = schema) do
     params = Map.get(changeset.params, field) || Map.get(changeset.params, "#{field}")
 
