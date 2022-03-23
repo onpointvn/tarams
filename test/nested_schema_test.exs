@@ -19,7 +19,7 @@ defmodule NestedSchemaTest do
         }
       }
 
-      changeset = Tarams.cast(@map_schema, data1)
+      changeset = Tarams.do_cast(@map_schema, data1)
       assert changeset.valid?
 
       assert %{
@@ -39,7 +39,7 @@ defmodule NestedSchemaTest do
         }
       }
 
-      changeset = Tarams.cast(@map_schema, data1)
+      changeset = Tarams.do_cast(@map_schema, data1)
       assert not changeset.valid?
 
       assert %{
@@ -54,7 +54,7 @@ defmodule NestedSchemaTest do
     test "nested schema cast on nil should be casted" do
       data1 = %{}
 
-      changeset = Tarams.cast(@map_schema, data1)
+      changeset = Tarams.do_cast(@map_schema, data1)
       assert changeset.valid?
       assert :item not in changeset.changes
     end
@@ -71,7 +71,7 @@ defmodule NestedSchemaTest do
 
       data1 = %{}
 
-      changeset = Tarams.cast(map_schema, data1)
+      changeset = Tarams.do_cast(map_schema, data1)
 
       assert not changeset.valid?
       assert %{errors: [item: {"can't be blank", [validation: :required]}]} = changeset
@@ -91,7 +91,7 @@ defmodule NestedSchemaTest do
         items: [%{sku: "1"}, %{sku: "2"}]
       }
 
-      cs = Tarams.cast(@list_schema, data)
+      cs = Tarams.do_cast(@list_schema, data)
       assert cs.valid?
 
       assert %{
@@ -104,7 +104,7 @@ defmodule NestedSchemaTest do
         items: [%{}, %{sku: "2"}]
       }
 
-      cs = Tarams.cast(@list_schema, data)
+      cs = Tarams.do_cast(@list_schema, data)
 
       assert not cs.valid?
 
@@ -115,7 +115,7 @@ defmodule NestedSchemaTest do
     test "cast list nil should not cast" do
       data = %{}
 
-      cs = Tarams.cast(@list_schema, data)
+      cs = Tarams.do_cast(@list_schema, data)
 
       assert cs.valid?
       assert :items not in cs.changes
@@ -135,7 +135,7 @@ defmodule NestedSchemaTest do
 
       data = %{}
 
-      cs = Tarams.cast(list_schema, data)
+      cs = Tarams.do_cast(list_schema, data)
 
       assert cs.valid?
       assert %{items: [%{sku: "1"}]} = Ecto.Changeset.apply_changes(cs)

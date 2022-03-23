@@ -118,7 +118,7 @@ defmodule Tarams do
   """
   @spec parse(map, %{optional(atom | binary) => any}) :: {:error, Ecto.Changeset.t()} | {:ok, map}
   def parse(schema, params) do
-    case cast(schema, params) do
+    case do_cast(schema, params) do
       %{valid?: true} = changeset ->
         {:ok, apply_changes(changeset)}
 
@@ -127,11 +127,16 @@ defmodule Tarams do
     end
   end
 
+  @spec parse(%{optional(atom | binary) => any}, map) :: {:error, Ecto.Changeset.t()} | {:ok, map}
+  def cast(params, schema) do
+    parse(schema, params)
+  end
+
   @doc """
   Build an Ecto schemaless schema and then do casting and validating params
   """
-  @spec cast(map, map) :: Ecto.Changeset.t()
-  def cast(schema, params) do
+  @spec do_cast(map, map) :: Ecto.Changeset.t()
+  def do_cast(schema, params) do
     %{
       types: types,
       default: default,
@@ -147,7 +152,7 @@ defmodule Tarams do
       |> Kernel.--(Map.keys(custom_cast_funcs))
       |> Kernel.--(Map.keys(embedded_fields))
 
-    cast({default, types}, params, default_cast_fields)
+    Ecto.Changeset.cast({default, types}, params, default_cast_fields)
     |> cast_custom_fields(custom_cast_funcs, params)
     |> cast_embedded_fields(embedded_fields)
     |> validate_required(required_fields)
@@ -191,7 +196,7 @@ defmodule Tarams do
         changeset
 
       params when is_list(params) ->
-        embedded_cs = Enum.map(params, &cast(schema, &1))
+        embedded_cs = Enum.map(params, &do_cast(schema, &1))
         valid? = Enum.reduce(embedded_cs, true, fn cs, acc -> acc and cs.valid? end)
 
         changeset
@@ -212,7 +217,7 @@ defmodule Tarams do
         changeset
 
       params when is_map(params) ->
-        embedded_cs = cast(schema, params)
+        embedded_cs = do_cast(schema, params)
 
         changeset
         |> put_embed_changes(field, embedded_cs)

@@ -34,7 +34,7 @@ defmodule TaramsVaidatorTest do
       "page" => "-1"
     }
 
-    assert %{valid?: false} = Tarams.cast(schema, params)
+    assert %{valid?: false} = Tarams.do_cast(schema, params)
   end
 
   test "test validate params with list custom validator should pass" do
@@ -57,6 +57,6 @@ defmodule TaramsVaidatorTest do
       "page" => "-1"
     }
 
-    assert %{valid?: false} = Tarams.cast(schema, params)
+    assert %{valid?: false} = Tarams.do_cast(schema, params)
   end
 end
