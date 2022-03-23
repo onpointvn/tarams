@@ -2,8 +2,10 @@
 
 Phoenix request params validation library.
 
-[![Build Status](https://github.com/bluzky/tarams/workflows/Elixir%20CI/badge.svg)](https://github.com/bluzky/tarams/actions) [![Coverage Status](https://coveralls.io/repos/github/bluzky/tarams/badge.svg?branch=main)](https://coveralls.io/github/bluzky/tarams?branch=main) [![Hex Version](https://img.shields.io/hexpm/v/tarams.svg)](https://hex.pm/packages/tarams) [![docs](https://img.shields.io/badge/docs-hexpm-blue.svg)](https://hexdocs.pm/tarams/)
+[![Build Status](https://github.com/bluzky/tarams/workflows/Elixir%20CI/badge.svg)](https://github.com/bluzky/tarams/actions) [![Coverage Status](https://coveralls.io/repos/github/bluzky/tarams/badge.svg?branch=master)](https://coveralls.io/github/bluzky/tarams?branch=master) [![Hex Version](https://img.shields.io/hexpm/v/tarams.svg)](https://hex.pm/packages/tarams) [![docs](https://img.shields.io/badge/docs-hexpm-blue.svg)](https://hexdocs.pm/tarams/)
 
+
+**Warning: Tarams v1.0.0 APIs is not back compatible**
 
 
 - [Why Tarams](#why-tarams)
@@ -74,6 +76,7 @@ Field specs is a keyword list thay may include:
 - `default`: default value or default function
 - `cast_func`: custom cast function
 - `number, format, length, in, not_in, func, required` are available validations
+- `as`: alias key you will receive from `Tarams.cast` if casting is succeeded
 
 
 ### Default value
@@ -152,7 +155,7 @@ Or nested list schema
 
 ## Validation
 
-`Tarams` uses `Valdi` validation library. You can read more about [Valdi here]()
+`Tarams` uses `Valdi` validation library. You can read more about [Valdi here](https://github.com/bluzky/valdi)
 Basically it supports following validation
 
 - validate inclusion/exclusion
